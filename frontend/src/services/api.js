@@ -13,7 +13,18 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-// Các hàm gọi API
+// Các hàm gọi API đến backend 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);
 export const fetchTransactions = () => API.get('/transactions');
+export const createTransaction = (transactionData) => API.post('/transactions', transactionData);
+
+export const fetchBudgets = () => API.get('/budgets');
+export const createBudget = (budgetData) => API.post('/budgets', budgetData);
+export const updateBudget = (id, updatedData) => API.put(`/budgets/${id}`, updatedData);
+export const deleteBudget = (id) => API.delete(`/budgets/${id}`);
+
+export const fetchGoals = () => API.get('/goals');
+export const createGoal = (goalData) => API.post('/goals', goalData);
+export const updateGoal = (id, updatedData) => API.put(`/goals/${id}`, updatedData);
+export const deleteGoal = (id) => API.delete(`/goals/${id}`);

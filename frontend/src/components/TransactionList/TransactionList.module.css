@@ -1,0 +1,28 @@
+.container {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 1rem;
+}
+.header h3 { margin: 0; font-size: 1.125rem; }
+.viewAll { font-size: 0.875rem; color: #3b82f6; text-decoration: none; }
+.list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+.item { display: flex; align-items: center; gap: 1rem; }
+.iconWrapper { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; border-radius: 50%; font-size: 1.25rem; }
+.details { flex-grow: 1; }
+.details p { margin: 0; }
+.title { font-weight: 600; }
+.category { font-size: 0.875rem; color: #6b7280; }
+.amount { font-weight: 600; font-size: 1rem; }
+.income { color: #10b981; }
+.expense { color: #ef4444; }
+.emptyText { color: #6b7280; text-align: center; padding: 1rem 0; }

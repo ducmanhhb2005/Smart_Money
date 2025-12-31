@@ -1,0 +1,115 @@
+.pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    background-color: #f9fafb;
+    min-height: 100vh;
+}
+
+.formWrapper {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    border: 1px solid #f3f4f6;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.header h1 {
+    margin: 0.5rem 0;
+    font-size: 1.875rem;
+}
+
+.header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.backButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    color: #3b82f6;
+    font-weight: 500;
+}
+.backButton:hover {
+    text-decoration: underline;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Để các group trong row có độ rộng bằng nhau */
+}
+
+.formRow {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.formGroup label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.formGroup input,
+.formGroup select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+.formGroup input:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
+.submitButton {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.875rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+.submitButton:hover {
+    background-color: #2563eb;
+}
+.submitButton:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #ef4444;
+    text-align: center;
+    background-color: #fee2e2;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin: 0;
+}

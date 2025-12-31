@@ -1,0 +1,118 @@
+/* Container chính bao bọc toàn bộ trang Dashboard */
+.dashboardContainer {
+    padding: 2rem;
+    background-color: #f9fafb; /* màu nền xám rất nhạt */
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Phần Header chứa tiêu đề và các nút hành động */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    max-width: 1400px; /* Giới hạn độ rộng tối đa để đẹp hơn trên màn hình lớn */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.875rem; /* ~30px */
+    font-weight: 700;
+    color: #111827;
+}
+
+.header p {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.headerActions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.addButton {
+    background-color: #3b82f6; /* Màu xanh dương */
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out;
+}
+.addButton:hover {
+    background-color: #2563eb;
+}
+
+.logoutButton {
+    background-color: #f3f4f6; /* Màu xám nhạt */
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.logoutButton:hover {
+    background-color: #e5e7eb;
+}
+
+/* Container chính cho nội dung (2 cột) */
+.mainContent {
+    display: grid;
+    grid-template-columns: 1fr 420px; /* Cột trái (1fr) co giãn, cột phải (420px) cố định */
+    gap: 2rem;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto; /* Căn giữa layout */
+}
+
+/* Responsive: Trên màn hình nhỏ hơn 1024px, chuyển về 1 cột */
+@media (max-width: 1024px) {
+    .mainContent {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Style cho 2 cột */
+.leftColumn, .rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Container cho 2 card "Tổng thu nhập" và "Tổng chi tiêu" */
+.summaryGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia thành 2 cột bằng nhau */
+    gap: 2rem;
+}
+
+/* Dành cho màn hình điện thoại, 2 card xếp chồng lên nhau */
+@media (max-width: 640px) {
+    .summaryGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Style cho trạng thái loading */
+.loading {
+    padding: 4rem;
+    font-size: 1.25rem;
+    text-align: center;
+    color: #6b7280;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

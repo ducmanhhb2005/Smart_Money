@@ -1,0 +1,25 @@
+.card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px_6px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    min-width: 200px;
+    border: 1px solid #f3f4f6;
+}
+.title {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin: 0 0 0.5rem 0;
+}
+.amount {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0;
+}
+.incomeAmount {
+    color: #10b981;
+}
+.expenseAmount {
+    color: #ef4444;
+}
