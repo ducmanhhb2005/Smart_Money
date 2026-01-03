@@ -28,3 +28,14 @@ export const fetchGoals = () => API.get('/goals');
 export const createGoal = (goalData) => API.post('/goals', goalData);
 export const updateGoal = (id, updatedData) => API.put(`/goals/${id}`, updatedData);
 export const deleteGoal = (id) => API.delete(`/goals/${id}`);
+
+export const parseTextToTransaction = (text)=>API.post('/ai/parse-text', { text });
+export const parseReceiptWithAI = (file) => {
+    const formData = new FormData();
+    formData.append('receiptImage', file); // Tên field phải khớp với backend
+
+    // Gọi đến endpoint mới của AI
+    return API.post('/ai/parse-receipt', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+};

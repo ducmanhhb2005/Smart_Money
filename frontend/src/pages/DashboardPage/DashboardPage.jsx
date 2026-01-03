@@ -57,6 +57,8 @@ const DashboardPage = () => {
                     <Link to="/budgets" className={styles.navLink}>Quản lý Ngân sách</Link>
                     <Link to="/goals" className={styles.navLink}>Mục tiêu</Link> 
                     <Link to="/add-transaction" className={styles.addButton}>Thêm Giao dịch</Link>
+                    <Link to="/ai-test" className={styles.addButton}>Kiểm tra AI</Link>
+                    <Link to="/add-by-receipt" className={styles.addButton}>Thêm bằng hóa đơn</Link>
                     <button onClick={logout} className={styles.logoutButton}>Đăng xuất</button>
                 </div>
             </header>

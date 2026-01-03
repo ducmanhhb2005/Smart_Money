@@ -1,0 +1,51 @@
+/* frontend/src/pages/AddByReceiptPage/components/EditableTransactionRow/EditableTransactionRow.module.css */
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 120px 120px 40px; /* Tên | Danh mục | Số tiền | Nút xóa */
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.titleInput {
+    font-weight: 600;
+}
+
+
+
+.amountInput {
+    text-align: right;
+}
+
+.deleteButton {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deleteButton:hover {
+    background-color: #fecaca;
+}
