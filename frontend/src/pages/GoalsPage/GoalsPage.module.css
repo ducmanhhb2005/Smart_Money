@@ -93,3 +93,87 @@
     justify-content: flex-end; 
     gap: 1rem; }
 .error { color: red; }
+/* Thêm vào cuối file GoalsPage.module.css */
+
+.actions {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các nút xuống dòng nếu không đủ chỗ */
+    gap: 0.5rem;
+}
+
+.planButton {
+    background-color: #8b5cf6; /* Màu tím */
+    color: white;
+    border: none;
+    flex-grow: 1; /* Nút sẽ chiếm nhiều không gian hơn */
+}
+.planButton:hover {
+    background-color: #7c3aed;
+}
+
+.planningSection {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.planningSection h5 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.monthSelector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.monthCheckbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f3f4f6;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+.monthCheckbox input {
+    cursor: pointer;
+}
+
+.generateButton {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.generateButton:disabled {
+    background-color: #9ca3af;
+}
+
+.loader {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Style cho kết quả */
+.planContainer { margin-top: 1.5rem; }
+.analysis { font-style: italic; background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #22c55e; }
+.suggestionList, .budgetList { padding-left: 20px; }
+.acceptButton { margin-top: 1rem; width: 100%; padding: 0.6rem; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;}

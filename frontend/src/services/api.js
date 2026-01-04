@@ -39,3 +39,4 @@ export const parseReceiptWithAI = (file) => {
         headers: { 'Content-Type': 'multipart/form-data' },
     });
 };
+export const generateSavingPlan = (goalId, baseMonths) => API.post('/ai/generate-saving-plan', { goalId, baseMonths });

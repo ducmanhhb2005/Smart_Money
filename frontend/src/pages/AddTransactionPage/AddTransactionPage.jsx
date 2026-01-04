@@ -3,7 +3,14 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './AddTransactionPage.module.css';
 import { createTransaction } from '../../services/api'; 
+const expenseCategories = [
+    "Ăn uống", "Hóa đơn", "Di chuyển", "Mua sắm", "Giải trí", 
+    "Sức khỏe", "Giáo dục", "Gia đình", "Quà tặng & Từ thiện", "Khác"
+];
 
+const incomeCategories = [
+    "Lương", "Thưởng", "Tiền lãi", "Bán đồ", "Được tặng", "Khác"
+];
 const AddTransactionPage = () => {
     const navigate = useNavigate();
     
@@ -12,7 +19,7 @@ const AddTransactionPage = () => {
         title: '',
         amount: '',
         type: 'EXPENSE', // Mặc định là 'Chi tiêu'
-        category: '',
+        category: expenseCategories[0],
         date: new Date().toISOString().split('T')[0], // Lấy ngày hôm nay
     });
     
@@ -20,8 +27,16 @@ const AddTransactionPage = () => {
     const [loading, setLoading] = useState(false);
 
     // Hàm cập nhật state khi người dùng nhập liệu
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+     const handleChange = (e) => {
+        const { name, value } = e.target;
+        
+        if (name === 'type') {
+           
+            const newCategory = value === 'INCOME' ? incomeCategories[0] : expenseCategories[0];
+            setFormData({ ...formData, type: value, category: newCategory });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     // Hàm xử lý khi submit form
@@ -54,7 +69,7 @@ const AddTransactionPage = () => {
             setLoading(false);
         }
     };
-    
+     const currentCategories = formData.type === 'INCOME' ? incomeCategories : expenseCategories;
     return (
         <div className={styles.pageContainer}>
             <div className={styles.formWrapper}>
@@ -91,7 +106,11 @@ const AddTransactionPage = () => {
 
                     <div className={styles.formGroup}>
                         <label htmlFor="category">Danh mục</label>
-                        <input type="text" id="category" name="category" value={formData.category} onChange={handleChange} placeholder="VD: Ăn uống, Di chuyển..." required />
+                        <select id="category" name="category" value={formData.category} onChange={handleChange} required>
+                            {currentCategories.map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
                     </div>
                     
                     {error && <p className={styles.error}>{error}</p>}
