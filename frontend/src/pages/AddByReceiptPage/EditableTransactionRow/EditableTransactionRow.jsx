@@ -1,13 +1,12 @@
-// frontend/src/pages/AddByReceiptPage/components/EditableTransactionRow/EditableTransactionRow.jsx
 import React from 'react';
 import styles from './EditableTransactionRow.module.css';
 
 const EditableTransactionRow = ({ transaction, index, onUpdate, onDelete }) => {
     
-    // Hàm xử lý khi một trường input thay đổi
+    //xử lý khi một trường input thay đổi
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // Gọi hàm onUpdate được truyền từ cha, gửi lên index và dữ liệu mới
+        //Gọi hàm onUpdate được truyền từ cha, gửi lên index và dữ liệu mới
         onUpdate(index, { ...transaction, [name]: value });
     };
 

@@ -102,8 +102,8 @@ const AddByReceiptPage = () => {
             <div className={styles.contentWrapper}>
                 <header className={styles.header}>
                     <Link to="/dashboard" className={styles.backButton}>&larr; Quay lại Dashboard</Link>
-                    <h1>Thêm Giao dịch bằng Hóa đơn</h1>
-                    <p>Tải lên ảnh hóa đơn của bạn, AI sẽ tự động điền thông tin.</p>
+                    <h1>Thêm giao dịch bằng hóa đơn</h1>
+                    <p>Tải lên ảnh hóa đơn của bạn, AI sẽ tự động điền thông tin</p>
                 </header>
 
                 {/* Vùng Upload */}
@@ -131,7 +131,7 @@ const AddByReceiptPage = () => {
                 {/* Nút Phân tích */}
                 {selectedFile && (
                     <button onClick={handleAnalyzeReceipt} disabled={isLoading} className={styles.analyzeButton}>
-                        {isLoading ? 'AI đang xử lý...' : 'Bắt đầu Phân tích'}
+                        {isLoading ? 'AI đang xử lý...' : 'Bắt đầu phân tích'}
                     </button>
                 )}
 

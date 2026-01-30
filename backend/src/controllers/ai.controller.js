@@ -4,62 +4,7 @@ const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Hàm này nhận một đoạn text thô (từ OCR/voice sau này) và phân tích nó
-export const parseTextToTransaction = async (req, res) => {
-    const { text } = req.body;
 
-    if (!text) {
-        return res.status(400).json({ message: "Vui lòng cung cấp đoạn text để phân tích." });
-    }
-
-    try {
-        // Lấy model gemini-pro
-        const model = genAI.getGenerativeModel({ model: "models/gemini-2.5-flash" });
-
-        // Cải tiến prompt để Gemini chắc chắn trả về JSON
-        const generationConfig = {
-            responseMimeType: "application/json",
-        };
-
-        const prompt = `
-            From the following Vietnamese text, extract transaction details.
-            Text: "${text}"
-            
-            Extract these fields: 
-            - "title": string (the name of the transaction),
-            - "amount": number (the numeric value of the money),
-            - "category": string (one of: "Ăn uống", "Mua sắm", "Di chuyển", "Hóa đơn", "Giải trí", "Sức khỏe", "Giáo dục", "Khác").
-            
-            Return ONLY the JSON object.
-        `;
-
-        // Sử dụng configuration mới
-        const result = await model.generateContent(prompt, generationConfig);
-        const response = await result.response;
-       let jsonString = response.text();
-        
-        // Tìm vị trí bắt đầu của JSON '{' và kết thúc '}'
-        const startIndex = jsonString.indexOf('{');
-        const endIndex = jsonString.lastIndexOf('}');
-        
-        if (startIndex === -1 || endIndex === -1) {
-            throw new Error("Gemini did not return a valid JSON object.");
-        }
-        
-        // Cắt lấy chuỗi JSON thuần túy
-        jsonString = jsonString.substring(startIndex, endIndex + 1);
-        
-        const transactionData = JSON.parse(jsonString);
-        res.status(200).json({
-            message: "Phân tích text thành công",
-            data: transactionData
-        });
-
-    } catch (error) {
-        console.error('Lỗi khi gọi Gemini API:', error);
-        res.status(500).json({ message: 'Lỗi server khi phân tích text.', error: error.message });
-    }
-};
 // Hàm helper để chuyển đổi buffer ảnh sang định dạng Gemini yêu cầu
 function fileToGenerativePart(buffer, mimeType) {
   return {
@@ -71,12 +16,10 @@ function fileToGenerativePart(buffer, mimeType) {
 }
 export const parseReceiptWithGemini = async (req, res) => {
     if (!req.file) {
-        return res.status(400).json({ message: 'Vui lòng upload một file ảnh hóa đơn.' });
+        return res.status(400).json({ message: 'Vui lòng upload một file ảnh hóa đơn' });
     }
 
     try {
-        // Sử dụng model có khả năng xử lý hình ảnh (multimodal)
-        // Gemini 1.5 Flash là lựa chọn tuyệt vời vì nó nhanh và mạnh
         const model = genAI.getGenerativeModel({ model: "models/gemini-2.5-flash" });
 
         const prompt = `
@@ -129,12 +72,14 @@ export const parseReceiptWithGemini = async (req, res) => {
 };
 
 /**
- * Thuật toán phát hiện các giao dịch lặp lại hàng tháng.
- * @param {Array} transactions - Danh sách tất cả giao dịch.
- * @param {string} category - Tên danh mục cần kiểm tra.
- * @returns {boolean} - True nếu category này có các giao dịch lặp lại.
+ * Thuật toán phát hiện các giao dịch lặp lại hàng tháng
+ * transactions - Danh sách tất cả giao dịch
+ * category - Tên danh mục cần kiểm tra
+ * @returns {boolean}
  */
 function detectRecurringTransactions(transactions, category) {
+    if (category === 'Tiết kiệm Mục tiêu') return false; 
+
     const categoryTransactions = transactions
         .filter(t => t.category === category && t.type === 'EXPENSE')
         .sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -159,7 +104,7 @@ function detectRecurringTransactions(transactions, category) {
         }
     }
     
-    // Nếu có ít nhất 1 cặp giao dịch lặp lại, coi là recurring
+    // Nếu có ít nhất 1 cặp giao dịch lặp lại thì coi là recurring
     return recurringPairs > 0;
 }
 export const generateSavingPlan = async (req, res) => {
@@ -167,17 +112,17 @@ export const generateSavingPlan = async (req, res) => {
     const { goalId, baseMonths } = req.body;
 
     if (!goalId) {
-        return res.status(400).json({ message: "Vui lòng cung cấp ID của mục tiêu." });
+        return res.status(400).json({ message: "Vui lòng cung cấp ID của mục tiêu" });
     }
     if (!baseMonths || !Array.isArray(baseMonths) || baseMonths.length === 0) {
-        return res.status(400).json({ message: "Vui lòng chọn ít nhất một tháng để làm cơ sở phân tích." });
+        return res.status(400).json({ message: "Vui lòng chọn ít nhất một tháng để làm cơ sở phân tích" });
     }
 
     try {
-        // --- GIAI ĐOẠN 1: THU THẬP VÀ TIỀN XỬ LÝ DỮ LIỆU ---
+        // Giai đoạn 1: Thu thập và tiền xử lý dữ liệu
 
         const goal = await prisma.goal.findFirst({ where: { id: goalId, userId } });
-        if (!goal) return res.status(404).json({ message: "Không tìm thấy mục tiêu." });
+        if (!goal) return res.status(404).json({ message: "Không tìm thấy mục tiêu" });
 
         const allTransactions = await prisma.transaction.findMany({ where: { userId } });
         
@@ -186,20 +131,23 @@ export const generateSavingPlan = async (req, res) => {
             return baseMonths.includes(monthYear);
         });
 
-        if (transactions.length < 5) {
-            return res.status(400).json({ message: "Các tháng bạn chọn có quá ít dữ liệu để phân tích." });
+        const validTransactions = transactions.filter(t => t.category !== 'Tiết kiệm Mục tiêu');
+
+        if (validTransactions.length < 5) {
+            return res.status(400).json({ message: "Các tháng bạn chọn có quá ít dữ liệu để phân tích" });
         }
 
         const divisor = baseMonths.length; // Số tháng thực tế được chọn để chia trung bình
-        let analysisMessagePrefix = `Dựa trên phân tích chi tiêu của ${divisor} tháng bạn đã chọn.`;
+        let analysisMessagePrefix = `Dựa trên phân tích chi tiêu của ${divisor} tháng bạn đã chọn`;
         
         const totalIncome = transactions.filter(t => t.type === 'INCOME').reduce((sum, t) => sum + t.amount, 0);
         const avg_monthly_income = totalIncome / divisor;
 
-        const allCategories = new Set(transactions.filter(t => t.type === 'EXPENSE').map(t => t.category));
+        const allCategories = new Set(validTransactions.filter(t => t.type === 'EXPENSE').map(t => t.category));
         
         const analyzedCategories = Array.from(allCategories).map(category => {
-            const categoryTransactions = transactions.filter(t => t.category === category && t.type === 'EXPENSE');
+            const categoryTransactions = validTransactions.filter(t => t.category === category && t.type === 'EXPENSE');
+           
             const total_spend_period = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
             const amounts = categoryTransactions.map(t => t.amount);
             
@@ -215,7 +163,7 @@ export const generateSavingPlan = async (req, res) => {
             return { name: category, avg_spend, avg_frequency, volatility, is_recurring };
         });
 
-        // --- GIAI ĐOẠN 2: THUẬT TOÁN CHẤM ĐIỂM LINH HOẠT ---
+        // Giai đoạn 2: Thuật toán chấm điểm linh hoạt
         const categoryFlexibilityMap = { "Giải trí": 0.9, "Mua sắm": 0.8, "Quà tặng & Từ thiện": 0.7, "Ăn uống": 0.6, "Di chuyển": 0.4, "Gia đình": 0.3, "Sức khỏe": 0.2, "Giáo dục": 0.1, "Hóa đơn": 0.0, "Khác": 0.5 };
         const w_base = 0.6, w_volatility = 0.4;
         
@@ -231,7 +179,7 @@ export const generateSavingPlan = async (req, res) => {
             return { ...cat, flexibility_score: Math.max(0, Math.min(final_score, 1)) };
         });
         
-        // --- GIAI ĐOẠN 3: THUẬT TOÁN TỐI ƯU HÓA PHÂN BỔ ---
+        // Giai đoạn 3: Thuật toán tối ưu hóa phân bổ
         const months_left = goal.deadline ? Math.max(1, ((new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24 * 30))) : 12; // Mặc định 12 tháng nếu không có deadline
         const savings_needed = Math.max(0, goal.targetAmount - goal.currentAmount);
         const monthly_saving_target = savings_needed / months_left;
@@ -266,7 +214,7 @@ export const generateSavingPlan = async (req, res) => {
         const total_contribution_score = candidates.reduce((sum, cat) => sum + (cat.avg_spend * cat.flexibility_score), 0);
 
         if (total_contribution_score <= 0) {
-            return res.status(400).json({ message: "Không thể tạo kế hoạch vì không có hạng mục nào có thể cắt giảm." });
+            return res.status(400).json({ message: "Không thể tạo kế hoạch vì không có hạng mục nào có thể cắt giảm" });
         }
 
         const suggestions = [];
@@ -294,7 +242,7 @@ export const generateSavingPlan = async (req, res) => {
             });
         });
 
-        // --- GIAI ĐOẠN 4: TẠO KẾT QUẢ ĐẦU RA ---
+        //Giai đoạn 4: Tạo phản hồi cuối cùng
         const finalPlan = {
             analysis: `${analysisMessagePrefix} Để đạt được mục tiêu "${goal.name}", bạn cần tiết kiệm thêm khoảng ${Math.round(shortfall/10000)*10000}đ mỗi tháng. Kế hoạch đề xuất như sau:`,
             suggestions: suggestions.sort((a,b) => b.savingEstimate - a.savingEstimate),
@@ -305,6 +253,6 @@ export const generateSavingPlan = async (req, res) => {
 
     } catch (error) {
         console.error("Lỗi khi tạo kế hoạch tiết kiệm:", error);
-        res.status(500).json({ message: 'Lỗi server khi tạo kế hoạch tiết kiệm.', error: error.message });
+        res.status(500).json({ message: 'Lỗi server khi tạo kế hoạch tiết kiệm', error: error.message });
     }
 };

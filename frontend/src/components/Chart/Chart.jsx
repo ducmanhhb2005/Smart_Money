@@ -3,8 +3,8 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import styles from './Chart.module.css';
 
-// Đăng ký các thành phần cần thiết cho Chart.js.
-//Chart.js biết cách vẽ biểu đồ tròn.
+//các thành phần cần thiết cho Chart.js
+//Chart.js biết cách vẽ biểu đồ tròn
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Chart = ({ income, expense }) => {
@@ -13,17 +13,16 @@ const Chart = ({ income, expense }) => {
 
     // Chuẩn bị dữ liệu để đưa vào biểu đồ
     const data = {
-        // `labels` dùng để hiển thị khi di chuột vào (tooltip)
+        // labels dùng để hiển thị khi di chuột vào (tooltip)
         labels: ['Chi tiêu', 'Thu nhập'],
         datasets: [
             {
                 label: 'Số tiền',
-                // Dữ liệu phải là số dương. Nếu không có chi tiêu/thu nhập, giá trị là 0.
                 data: [expense > 0 ? expense : 0, income > 0 ? income : 0],
                 // Màu sắc tương ứng với labels ở trên
                 backgroundColor: [
-                    '#ef4444', // Màu đỏ cho 'Chi tiêu'
-                    '#10b981', // Màu xanh lá cho 'Thu nhập'
+                    '#ef4444', // Màu đỏ cho Chi tiêu
+                    '#10b981', // Màu xanh lá cho Thu nhập
                 ],
                 borderColor: '#ffffff', // Màu viền giữa các phần
                 borderWidth: 3,
@@ -32,13 +31,12 @@ const Chart = ({ income, expense }) => {
         ],
     };
 
-    // Các tùy chỉnh cho biểu đồ
     const options = {
         responsive: true, // Biểu đồ tự co giãn theo kích thước container
-        maintainAspectRatio: false, // Cho phép biểu đồ không bị méo khi co giãn
+        maintainAspectRatio: false, //Cho phép biểu đồ không bị méo khi co giãn
         plugins: {
             legend: {
-                display: false, // Ẩn chú thích (legend) mặc định vì chúng ta sẽ tự tạo
+                display: false, // Ẩn chú thích (legend) mặc định vì ta sẽ tự tạo
             },
             tooltip: {
                 // Tùy chỉnh nội dung hiển thị khi di chuột vào
@@ -50,7 +48,7 @@ const Chart = ({ income, expense }) => {
                         return `${label}: ${formattedValue}`;
                     },
                 },
-                // Các tùy chỉnh khác cho tooltip
+                //tùy chỉnh khác cho tooltip
                 backgroundColor: '#111827', // Màu nền
                 titleFont: { size: 14 },
                 bodyFont: { size: 12 },
@@ -78,7 +76,7 @@ const Chart = ({ income, expense }) => {
                 </div>
             </div>
 
-            {/* Phần chú thích (legend) tự tạo */}
+            {/*legend*/}
             <div className={styles.legendContainer}>
                 <div className={styles.legendItem}>
                     <span className={`${styles.dot} ${styles.incomeDot}`}></span>

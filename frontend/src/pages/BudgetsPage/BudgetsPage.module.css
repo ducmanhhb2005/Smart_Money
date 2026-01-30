@@ -25,7 +25,7 @@
 
 .budgetList {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
 }
 
@@ -34,33 +34,126 @@
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid #f3f4f6;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+.overBudgetCard {
+    border-color: #fecaca;
+    background-color: #fff7f7;
 }
 
-.budgetCard h3 { margin-top: 0; }
-.amount { font-size: 1.75rem; font-weight: 600; color: #1f2937; }
-.dateRange { color: #6b7280; font-size: 0.875rem; }
-.actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
-.actions button { padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
-.deleteButton { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-
-/* Modal Styles */
-.modalOverlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
+.cardHeader {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
-.modalContent {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
+
+.cardHeader h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #1f2937;
 }
+
+.amountInfo {
+    font-weight: 500;
+}
+
+.spent {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.spentOver {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ef4444; /* Màu đỏ khi vượt mức */
+}
+
+.limit {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.progressContainer {
+    background-color: #e5e7eb;
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.progressBar {
+    background-color: #3b82f6; /* Màu xanh dương mặc định */
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease-in-out, background-color 0.5s;
+}
+
+.progressOver {
+    background-color: #ef4444; /* Màu đỏ khi vượt mức */
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.dateRange {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.warning {
+    color: #ef4444;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.actions { display: flex; gap: 0.5rem; }
+.actions button { padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; border: 1px solid #d1d5db; background: white; font-size: 0.8rem; }
+.editButton:hover { background-color: #eff6ff; }
+.deleteButton { color: #b91c1c; }
+.deleteButton:hover { background-color: #fee2e2; }
+
+.emptyState {
+    grid-column: 1 / -1; /* Chiếm toàn bộ chiều rộng grid */
+    text-align: center;
+    padding: 3rem;
+    background: #fafafa;
+    border-radius: 12px;
+}
+.emptyState p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+
+/* Modal Styles (giữ nguyên) */
+.modalOverlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); display: flex;
+    justify-content: center; align-items: center;
+}
+.modalContent { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; }
 .modalContent form { display: flex; flex-direction: column; gap: 1rem; }
-.modalContent input, .modalContent select { padding: 0.75rem; border-radius: 6px; border: 1px solid #ccc; }
+.modalContent input, .modalContent select { width: 100%; box-sizing: border-box; padding: 0.75rem; border-radius: 6px; border: 1px solid #ccc; }
 .formActions { margin-top: 1rem; display: flex; justify-content: flex-end; gap: 1rem; }
-.error { color: red; }
+.error { color: red; margin-top: 1rem; text-align: center; }
+/* Thêm vào cuối file BudgetsPage.module.css */
+
+.editButton {
+    color: #3b82f6; /* Màu chữ xanh */
+    border-color: #bfdbfe;
+    background-color: #eff6ff; /* Nền xanh nhạt */
+}
+
+.editButton:hover {
+    background-color: #dbeafe; /* Nền xanh đậm hơn khi di chuột */
+}

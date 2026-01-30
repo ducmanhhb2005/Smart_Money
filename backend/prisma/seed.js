@@ -1,6 +1,3 @@
-// backend/prisma/seed.js
-
-// Dùng cách import này để tương thích với cả ESM và CJS
 import Prisma from '@prisma/client';
 const { PrismaClient } = Prisma;
 import bcrypt from 'bcryptjs';
@@ -10,12 +7,12 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Bắt đầu quá trình seeding...');
 
-  // --- 1. Tạo User mẫu ---
+  //Tạo User mẫu
   const hashedPassword = await bcrypt.hash('password123', 10);
   
   const user1 = await prisma.user.upsert({
     where: { email: 'testuser@gmail.com' }, // Tìm user bằng email để tránh tạo trùng lặp
-    update: {}, // Nếu đã tồn tại, không làm gì cả
+    update: {}, // Nếu đã tồn tại không làm gì cả
     create: {
       email: 'testuser@gmail.com',
       username: 'testuser',
@@ -24,8 +21,7 @@ async function main() {
   });
   console.log(`Đã tạo hoặc cập nhật user: ${user1.username}`);
 
-  // --- 2. Tạo các Giao dịch mẫu cho User 1 ---
-  // Prisma sẽ tự động kết nối các giao dịch này với user1 thông qua `userId`
+  //Tạo các Giao dịch mẫu cho User 1 
   
   await prisma.transaction.createMany({
     data: [
@@ -70,11 +66,11 @@ async function main() {
         userId: user1.id,
       },
     ],
-    skipDuplicates: true, // Bỏ qua nếu có lỗi trùng lặp (ví dụ: chạy seed nhiều lần)
+    skipDuplicates: true, // Bỏ qua nếu có lỗi trùng lặp or chạy seed nhiều lần
   });
-  console.log('Đã tạo các giao dịch mẫu.');
+  console.log('Đã tạo các giao dịch mẫu');
 
-  // --- 3. Tạo Budget mẫu ---
+  // Tạo Budget mẫu 
   await prisma.budget.create({
     data: {
       category: 'Ăn uống',
@@ -84,9 +80,9 @@ async function main() {
       userId: user1.id,
     }
   });
-  console.log('Đã tạo ngân sách mẫu.');
+  console.log('Đã tạo ngân sách mẫu');
   
-  // --- 4. Tạo Goal mẫu ---
+  // 4. Tạo Goal mẫu 
   await prisma.goal.create({
     data: {
       name: 'Mua điện thoại mới',
@@ -98,7 +94,7 @@ async function main() {
   });
   console.log('Đã tạo mục tiêu mẫu.');
 
-  console.log('Seeding hoàn tất!');
+  console.log('Seeding hoàn tất');
 }
 
 main()

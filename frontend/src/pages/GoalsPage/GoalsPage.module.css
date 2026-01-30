@@ -57,8 +57,11 @@
     padding: 0.5rem 1rem; 
     border-radius: 6px; 
     cursor: pointer; 
-    border: 1px solid #d1d5db; 
-    background: white; }
+    border: none; 
+    background: #3b82f6;
+    color: white;
+    font-weight: 500;
+    flex: 1; }
 .deleteButton { 
     background-color: #fee2e2; 
     color: #b91c1c; 
@@ -177,3 +180,13 @@
 .analysis { font-style: italic; background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #22c55e; }
 .suggestionList, .budgetList { padding-left: 20px; }
 .acceptButton { margin-top: 1rem; width: 100%; padding: 0.6rem; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;}
+
+.saveButton {
+    background-color: #10b981; /* Màu xanh lá */
+    color: white;
+    border: none;
+    flex-grow: 1;
+}
+.saveButton:hover {
+    background-color: #059669;
+}

@@ -1,15 +1,13 @@
-// backend/src/controllers/budget.controller.js
 import Prisma from '@prisma/client';
 const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 
-// === TẠO NGÂN SÁCH MỚI ===
 export const createBudget = async (req, res) => {
     const userId = req.user.userId;
     const { category, amount, startDate, endDate } = req.body;
 
     if (!category || !amount || !startDate || !endDate) {
-        return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin ngân sách." });
+        return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin ngân sách" });
     }
 
     try {
@@ -25,11 +23,10 @@ export const createBudget = async (req, res) => {
         res.status(201).json(newBudget);
     } catch (error) {
         console.error("Lỗi khi tạo ngân sách:", error);
-        res.status(500).json({ message: 'Lỗi server khi tạo ngân sách.' });
+        res.status(500).json({ message: 'Lỗi server khi tạo ngân sách' });
     }
 };
 
-// === LẤY TẤT CẢ NGÂN SÁCH ===
 export const getBudgets = async (req, res) => {
     const userId = req.user.userId;
     try {
@@ -40,11 +37,10 @@ export const getBudgets = async (req, res) => {
         res.status(200).json(budgets);
     } catch (error) {
         console.error("Lỗi khi lấy danh sách ngân sách:", error);
-        res.status(500).json({ message: 'Lỗi server khi lấy danh sách ngân sách.' });
+        res.status(500).json({ message: 'Lỗi server khi lấy danh sách ngân sách' });
     }
 };
 
-// === CẬP NHẬT NGÂN SÁCH ===
  export const updateBudget = async (req, res) => {
      const userId = req.user.userId;
      const budgetId = parseInt(req.params.id);
@@ -69,11 +65,10 @@ export const getBudgets = async (req, res) => {
          });
          res.status(200).json(updatedBudget);
      } catch (error) {
-         res.status(500).json({ message: 'Lỗi server khi cập nhật ngân sách.' });
+         res.status(500).json({ message: 'Lỗi server khi cập nhật ngân sách' });
      }
  };
 
- // === XÓA NGÂN SÁCH ===
  export const deleteBudget = async (req, res) => {
      const userId = req.user.userId;
      const budgetId = parseInt(req.params.id);
@@ -84,12 +79,12 @@ export const getBudgets = async (req, res) => {
          });
 
          if (!budget) {
-             return res.status(404).json({ message: "Không tìm thấy ngân sách hoặc bạn không có quyền." });
+             return res.status(404).json({ message: "Không tìm thấy ngân sách hoặc bạn không có quyền" });
          }
 
          await prisma.budget.delete({ where: { id: budgetId } });
-         res.status(200).json({ message: "Đã xóa ngân sách thành công." });
+         res.status(200).json({ message: "Đã xóa ngân sách thành công" });
      } catch (error) {
-         res.status(500).json({ message: 'Lỗi server khi xóa ngân sách.' });
+         res.status(500).json({ message: 'Lỗi server khi xóa ngân sách' });
      }
  };

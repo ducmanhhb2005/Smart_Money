@@ -20,10 +20,15 @@
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1.75rem 0;
 }
 
 .header h1 {
-    margin: 0.5rem 0;
+    margin: 1rem 0 0;
 }
 
 .header p {
@@ -32,11 +37,13 @@
 
 .backButton {
     position: absolute;
-    top: 5px; /* Điều chỉnh vị trí */
+    top: 0.75rem;
     left: 0;
+    transform: none;
     text-decoration: none;
     color: #3b82f6;
     font-weight: 500;
+    padding: 0.25rem 0.5rem;
 }
 .backButton:hover {
     text-decoration: underline;

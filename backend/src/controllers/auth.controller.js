@@ -28,7 +28,7 @@ export const register = async (req, res) => {
         res.status(500).json({ message: 'Lỗi server', error: error.message });
     }
 };
-
+//Tạo ra token mỗi khi đăng nhập để tránh kẻ gian lấy được APi chỉnh sửa dữ liệu tùy ý
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -47,6 +47,7 @@ export const login = async (req, res) => {
         // trả về cả token và thông tin user trừ password
         const { password: _, ...userWithoutPassword } = user;
         res.json({ message: 'Đăng nhập thành công!', token, user: userWithoutPassword });
+        //status:200
 
     } catch (error) {
         res.status(500).json({ message: 'Lỗi server', error: error.message });

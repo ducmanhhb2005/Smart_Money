@@ -29,6 +29,7 @@ export const createGoal = (goalData) => API.post('/goals', goalData);
 export const updateGoal = (id, updatedData) => API.put(`/goals/${id}`, updatedData);
 export const deleteGoal = (id) => API.delete(`/goals/${id}`);
 
+export const addSavingsToGoal = (id, data) => API.post(`/goals/${id}/add-savings`, data);
 export const parseTextToTransaction = (text)=>API.post('/ai/parse-text', { text });
 export const parseReceiptWithAI = (file) => {
     const formData = new FormData();

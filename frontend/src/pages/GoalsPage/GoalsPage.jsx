@@ -30,6 +30,11 @@ const GoalsPage = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', targetAmount: '', deadline: '' });
     const [editingId, setEditingId] = useState(null);
+
+    const [isSavingModalOpen, setIsSavingModalOpen] = useState(false);
+    const [savingGoalId, setSavingGoalId] = useState(null);
+    const [savingAmount, setSavingAmount] = useState('');
+
     const [planningState, setPlanningState] = useState({
         goalId: null, // ID của goal đang được lập kế hoạch
         availableMonths: [],
@@ -156,7 +161,24 @@ const GoalsPage = () => {
     };
 
     if (loading) return <div>Đang tải...</div>;
+        const handleOpenSavingModal = (goalId) => {
+        setSavingGoalId(goalId);
+        setSavingAmount('');
+        setIsSavingModalOpen(true);
+    };
 
+    const handleSubmitSaving = async (e) => {
+        e.preventDefault();
+        try {
+            const { data } = await api.addSavingsToGoal(savingGoalId, { amount: savingAmount });
+            // Cập nhật lại danh sách goals với dữ liệu mới
+            setGoals(goals.map(g => g.id === savingGoalId ? data.data : g));
+            setIsSavingModalOpen(false);
+            alert('Đã thêm tiền vào mục tiêu thành công!');
+        } catch (err) {
+            alert(err.response?.data?.message || 'Thất bại.');
+        }
+    };
     return (
         <div className={styles.pageContainer}>
             <header className={styles.header}>
@@ -185,6 +207,7 @@ const GoalsPage = () => {
                             <div className={styles.actions}>
                                 <button onClick={() => handleOpenForm(goal)}>Sửa</button>
                                 <button onClick={() => handleDelete(goal.id)} className={styles.deleteButton}>Xóa</button>
+                                <button onClick={() => handleOpenSavingModal(goal.id)} className={styles.saveButton}>Nạp tiền</button>
                                 <button onClick={() => handleOpenPlanGenerator(goal.id)} className={styles.planButton}>Tạo Kế hoạch AI</button>
                             </div>
                                                   {planningState.goalId === goal.id && (
@@ -244,6 +267,28 @@ const GoalsPage = () => {
                             <div className={styles.formActions}>
                                 <button type="button" onClick={handleCloseForm}>Hủy</button>
                                 <button type="submit">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {isSavingModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h2>Thêm tiền vào mục tiêu</h2>
+                        <form onSubmit={handleSubmitSaving}>
+                            <label>Số tiền muốn thêm (VNĐ):</label>
+                            <input 
+                                type="number" 
+                                value={savingAmount} 
+                                onChange={(e) => setSavingAmount(e.target.value)} 
+                                required 
+                                placeholder="VD: 500000"
+                            />
+                            <p style={{fontSize: '0.9rem', color: '#666'}}>Hệ thống sẽ tự động tạo một giao dịch chi tiêu tương ứng.</p>
+                            <div className={styles.formActions}>
+                                <button type="button" onClick={() => setIsSavingModalOpen(false)}>Hủy</button>
+                                <button type="submit" style={{backgroundColor: '#10b981'}}>Xác nhận</button>
                             </div>
                         </form>
                     </div>

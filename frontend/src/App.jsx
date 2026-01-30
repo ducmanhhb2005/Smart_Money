@@ -2,14 +2,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
-//import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import PrivateRoute from './components/PrivateRoute';
 import RegisterPage from './pages/RegisterPage';
 import AddTransactionPage from './pages/AddTransactionPage/AddTransactionPage';
 import BudgetsPage from './pages/BudgetsPage/BudgetsPage';
 import GoalsPage from './pages/GoalsPage/GoalsPage';
-import AiTestPage from './pages/AiTestPage/AiTestPage';
 import AddByReceiptPage from './pages/AddByReceiptPage/AddByReceiptPage';
 function App() {
     return (
@@ -26,7 +24,7 @@ function App() {
                         <Route path="/add-transaction" element={<AddTransactionPage />} />
                         <Route path="/budgets" element={<BudgetsPage />} />
                         <Route path="/goals" element={<GoalsPage />} />
-                        <Route path="/ai-test" element={<AiTestPage />} />
+                        
                         <Route path="/add-by-receipt" element={<AddByReceiptPage />} />
                     </Route>
                 </Routes>

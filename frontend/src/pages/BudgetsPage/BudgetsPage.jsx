@@ -5,9 +5,11 @@ import * as api from '../../services/api';
 
 const BudgetsPage = () => {
     const [budgets, setBudgets] = useState([]);
+    const [transactions, setTransactions] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+  
+    const expenseCategories = ["Ăn uống", "Hóa đơn", "Di chuyển", "Mua sắm", "Giải trí", "Sức khỏe", "Giáo dục", "Gia đình", "Quà tặng & Từ thiện", "Khác"];
     // State cho form thêm/sửa
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -20,17 +22,21 @@ const BudgetsPage = () => {
 
     // Fetch dữ liệu khi component được mount
     useEffect(() => {
-        const getBudgets = async () => {
+        const fetchData = async () => {
             try {
-                const { data } = await api.fetchBudgets();
-                setBudgets(data);
+                const [budgetsRes, transactionsRes] = await Promise.all([
+                    api.fetchBudgets(),
+                    api.fetchTransactions()
+                ]);
+                setBudgets(budgetsRes.data);
+                setTransactions(transactionsRes.data);
             } catch (err) {
                 setError('Không thể tải danh sách ngân sách.');
             } finally {
                 setLoading(false);
             }
         };
-        getBudgets();
+        fetchData();
     }, []);
 
     const handleOpenForm = (budget = null) => {
@@ -103,22 +109,62 @@ const BudgetsPage = () => {
             {error && !isFormOpen && <p className={styles.error}>{error}</p>}
 
             <div className={styles.budgetList}>
-                {budgets.length > 0 ? budgets.map(budget => (
-                    <div key={budget.id} className={styles.budgetCard}>
-                        <h3>{budget.category}</h3>
-                        <p className={styles.amount}>{Number(budget.amount).toLocaleString('vi-VN')} đ</p>
-                        <p className={styles.dateRange}>
-                            {new Date(budget.startDate).toLocaleDateString('vi-VN')} - {new Date(budget.endDate).toLocaleDateString('vi-VN')}
-                        </p>
-                        <div className={styles.actions}>
-                            <button onClick={() => handleOpenForm(budget)}>Sửa</button>
-                            <button onClick={() => handleDelete(budget.id)} className={styles.deleteButton}>Xóa</button>
+                {budgets.length > 0 ? budgets.map(budget => {
+                    const spentAmount = transactions
+                        .filter(t => 
+                            t.category === budget.category && 
+                            t.type === 'EXPENSE' &&
+                            new Date(t.date) >= new Date(budget.startDate) &&
+                            new Date(t.date) <= new Date(budget.endDate)
+                        )
+                        .reduce((sum, t) => sum + t.amount, 0);
+
+                    const progress = budget.amount > 0 ? Math.min((spentAmount / budget.amount) * 100, 100) : 0;
+                    const isOverBudget = spentAmount > budget.amount;
+
+                    return (
+                        <div key={budget.id} className={`${styles.budgetCard} ${isOverBudget ? styles.overBudgetCard : ''}`}>
+                            <div className={styles.cardHeader}>
+                                <h3>{budget.category}</h3>
+                                <div className={styles.actions}>
+                                    <button onClick={() => handleOpenForm(budget)} className={styles.editButton}>Sửa</button>
+                                    <button onClick={() => handleDelete(budget.id)} className={styles.deleteButton}>Xóa</button>
+                                </div>
+                            </div>
+                            
+                            {/* Thông tin số tiền */}
+                            <div className={styles.amountInfo}>
+                                <span className={isOverBudget ? styles.spentOver : styles.spent}>
+                                    {spentAmount.toLocaleString('vi-VN')} đ
+                                </span>
+                                <span className={styles.limit}>/ {Number(budget.amount).toLocaleString('vi-VN')} đ</span>
+                            </div>
+
+                            {/* Thanh tiến trình (Progress Bar) */}
+                            <div className={styles.progressContainer}>
+                                <div 
+                                    className={`${styles.progressBar} ${isOverBudget ? styles.progressOver : ''}`} 
+                                    style={{ width: `${progress}%` }}
+                                ></div>
+                            </div>
+
+                            {/* Ngày tháng và Cảnh báo */}
+                            <div className={styles.cardFooter}>
+                                <span className={styles.dateRange}>
+                                    {new Date(budget.startDate).toLocaleDateString('vi-VN')} - {new Date(budget.endDate).toLocaleDateString('vi-VN')}
+                                </span>
+                                {isOverBudget && <span className={styles.warning}>⚠️ Vượt ngân sách!</span>}
+                            </div>
                         </div>
+                    );
+                }) : (
+                    <div className={styles.emptyState}>
+                        <p>Chưa có ngân sách nào được thiết lập.</p>
+                        <button onClick={() => handleOpenForm()} className={styles.addButton}>Tạo ngân sách đầu tiên</button>
                     </div>
-                )) : (
-                    <p>Chưa có ngân sách nào. Hãy tạo một cái!</p>
                 )}
             </div>
+
 
             {isFormOpen && (
                 <div className={styles.modalOverlay}>
@@ -126,7 +172,12 @@ const BudgetsPage = () => {
                         <h2>{editingId ? 'Chỉnh sửa Ngân sách' : 'Tạo Ngân sách mới'}</h2>
                         <form onSubmit={handleSubmit}>
                             {/* ... Các input cho form ... */}
-                            <input name="category" value={formData.category} onChange={handleChange} placeholder="Danh mục (VD: Ăn uống)" required />
+                            <select name="category" value={formData.category} onChange={handleChange} required>
+                                <option value="" disabled>-- Chọn một danh mục --</option>
+                                {expenseCategories.map(cat => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
                             <input name="amount" type="number" value={formData.amount} onChange={handleChange} placeholder="Số tiền" required />
                             <label>Ngày bắt đầu</label>
                             <input name="startDate" type="date" value={formData.startDate} onChange={handleChange} required />
