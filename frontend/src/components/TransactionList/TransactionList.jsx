@@ -4,7 +4,7 @@ import styles from './TransactionList.module.css';
 const TransactionItem = ({ transaction }) => {
     const isIncome = transaction.type === 'INCOME';
     const amountStyle = isIncome ? styles.income : styles.expense;
-    const icon = isIncome ? '💰' : '🛍️'; // Thay icon tùy thích
+    const icon = isIncome ? '💰' : '🛍️'; 
 
     return (
         <li className={styles.item}>

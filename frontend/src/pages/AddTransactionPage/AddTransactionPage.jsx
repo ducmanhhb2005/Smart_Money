@@ -14,13 +14,13 @@ const incomeCategories = [
 const AddTransactionPage = () => {
     const navigate = useNavigate();
     
-    // State để quản lý dữ liệu form
+    // State quản lý dữ liệu form
     const [formData, setFormData] = useState({
         title: '',
         amount: '',
         type: 'EXPENSE', // Mặc định là 'Chi tiêu'
         category: expenseCategories[0],
-        date: new Date().toISOString().split('T')[0], // Lấy ngày hôm nay
+        date: new Date().toISOString().split('T')[0], //ngày hôm nay
     });
     
     const [error, setError] = useState('');
@@ -48,10 +48,10 @@ const AddTransactionPage = () => {
         try {
             // Kiểm tra dữ liệu đầu vào
             if (!formData.title || !formData.amount || !formData.category) {
-                throw new Error("Vui lòng điền đầy đủ các trường bắt buộc.");
+                throw new Error("Vui lòng điền đầy đủ các trường bắt buộc");
             }
             if (parseFloat(formData.amount) <= 0) {
-                throw new Error("Số tiền phải là một số dương.");
+                throw new Error("Số tiền phải là một số dương");
             }
 
             // Gọi API để tạo giao dịch
@@ -63,7 +63,7 @@ const AddTransactionPage = () => {
             navigate('/dashboard', {state: {refresh: true}});
 
         } catch (err) {
-            const errorMessage = err.response?.data?.message || err.message || 'Thêm giao dịch thất bại. Vui lòng thử lại.';
+            const errorMessage = err.response?.data?.message || err.message || 'Thêm giao dịch thất bại. Vui lòng thử lại';
             setError(errorMessage);
         } finally {
             setLoading(false);
@@ -76,7 +76,7 @@ const AddTransactionPage = () => {
                 <header className={styles.header}>
                     <Link to="/dashboard" className={styles.backButton}>&larr; Quay lại Dashboard</Link>
                     <h1>Thêm Giao dịch mới</h1>
-                    <p>Ghi lại các khoản thu nhập hoặc chi tiêu của bạn.</p>
+                    <p>Ghi lại các khoản thu nhập hoặc chi tiêu của bạn</p>
                 </header>
 
                 <form onSubmit={handleSubmit} className={styles.form}>

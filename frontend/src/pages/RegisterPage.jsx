@@ -45,13 +45,13 @@ const RegisterPage = () => {
         e.preventDefault();
         setError('');
 
-        // Kiểm tra mật khẩu có khớp không
+        //Kiểm tra mật khẩu có khớp không
         if (formData.password !== formData.confirmPassword) {
             setError('Mật khẩu xác nhận không khớp.');
             return;
         }
 
-        // Kiểm tra độ mạnh của mật khẩu
+        //Kiểm tra độ mạnh của mật khẩu
         if (passwordStrength < 2) {
             setError('Mật khẩu phải có ít nhất 8 ký tự và chứa chữ cái.');
             return;
@@ -62,10 +62,10 @@ const RegisterPage = () => {
             const { confirmPassword, ...registerData } = formData;
             await api.register(registerData);
 
-            alert('✅ Đăng ký thành công! Bạn sẽ được chuyển đến trang đăng nhập.');
+            alert('Đăng ký thành công! Bạn sẽ được chuyển đến trang đăng nhập');
             navigate('/login');
         } catch (err) {
-            const errorMessage = err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.';
+            const errorMessage = err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại';
             setError(errorMessage);
             console.error('Registration failed:', err);
         } finally {

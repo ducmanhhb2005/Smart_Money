@@ -1,4 +1,3 @@
-// frontend/src/pages/BudgetsPage/BudgetsPage.jsx
 import React, { useState, useEffect } from 'react';
 import styles from './BudgetsPage.module.css';
 import * as api from '../../services/api';
@@ -18,7 +17,7 @@ const BudgetsPage = () => {
         startDate: '',
         endDate: '',
     });
-    const [editingId, setEditingId] = useState(null); // Dùng để biết đang sửa hay thêm mới
+    const [editingId, setEditingId] = useState(null); //biết đang sửa hay thêm mới
 
     // Fetch dữ liệu khi component được mount
     useEffect(() => {
@@ -31,7 +30,7 @@ const BudgetsPage = () => {
                 setBudgets(budgetsRes.data);
                 setTransactions(transactionsRes.data);
             } catch (err) {
-                setError('Không thể tải danh sách ngân sách.');
+                setError('Không thể tải danh sách ngân sách');
             } finally {
                 setLoading(false);
             }
@@ -46,7 +45,7 @@ const BudgetsPage = () => {
             setFormData({
                 category: budget.category,
                 amount: budget.amount,
-                // Format lại ngày tháng để input type="date" có thể nhận
+                // Format lại ngày tháng để input type=date có thể nhận
                 startDate: new Date(budget.startDate).toISOString().split('T')[0],
                 endDate: new Date(budget.endDate).toISOString().split('T')[0],
             });
@@ -72,17 +71,17 @@ const BudgetsPage = () => {
         e.preventDefault();
         try {
             if (editingId) {
-                // Logic sửa
+                //sửa
                 const { data: updatedBudget } = await api.updateBudget(editingId, formData);
                 setBudgets(budgets.map(b => (b.id === editingId ? updatedBudget : b)));
             } else {
-                // Logic thêm mới
+                //thêm mới
                 const { data: newBudget } = await api.createBudget(formData);
                 setBudgets([...budgets, newBudget]);
             }
             handleCloseForm();
         } catch (err) {
-            setError(err.response?.data?.message || 'Thao tác thất bại.');
+            setError(err.response?.data?.message || 'Thao tác thất bại');
         }
     };
     
@@ -171,7 +170,7 @@ const BudgetsPage = () => {
                     <div className={styles.modalContent}>
                         <h2>{editingId ? 'Chỉnh sửa Ngân sách' : 'Tạo Ngân sách mới'}</h2>
                         <form onSubmit={handleSubmit}>
-                            {/* ... Các input cho form ... */}
+                            
                             <select name="category" value={formData.category} onChange={handleChange} required>
                                 <option value="" disabled>-- Chọn một danh mục --</option>
                                 {expenseCategories.map(cat => (

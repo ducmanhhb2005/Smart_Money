@@ -4,7 +4,7 @@ const API = axios.create({
     baseURL: 'http://localhost:5000/api', 
 });
 
-// Interceptor để tự động gắn token vào mỗi request
+//interceptor để tự động gắn token vào mỗi request
 API.interceptors.request.use((req) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-// Các hàm gọi API đến backend 
+//các hàm gọi API đến backend 
 export const login = (formData) => API.post('/auth/login', formData);
 export const register = (formData) => API.post('/auth/register', formData);
 export const fetchTransactions = () => API.get('/transactions');
@@ -35,7 +35,7 @@ export const parseReceiptWithAI = (file) => {
     const formData = new FormData();
     formData.append('receiptImage', file); // Tên field phải khớp với backend
 
-    // Gọi đến endpoint mới của AI
+    // gọi đến endpoint mới của AI
     return API.post('/ai/parse-receipt', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
     });

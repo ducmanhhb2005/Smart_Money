@@ -135,7 +135,6 @@
 }
 
 
-/* Modal Styles (giữ nguyên) */
 .modalOverlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.5); display: flex;
@@ -146,7 +145,6 @@
 .modalContent input, .modalContent select { width: 100%; box-sizing: border-box; padding: 0.75rem; border-radius: 6px; border: 1px solid #ccc; }
 .formActions { margin-top: 1rem; display: flex; justify-content: flex-end; gap: 1rem; }
 .error { color: red; margin-top: 1rem; text-align: center; }
-/* Thêm vào cuối file BudgetsPage.module.css */
 
 .editButton {
     color: #3b82f6; /* Màu chữ xanh */

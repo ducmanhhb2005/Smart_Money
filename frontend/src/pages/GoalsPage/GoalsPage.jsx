@@ -1,4 +1,3 @@
-// frontend/src/pages/GoalsPage/GoalsPage.jsx
 import React, { useState, useEffect } from 'react';
 import styles from './GoalsPage.module.css';
 import * as api from '../../services/api';
@@ -54,14 +53,14 @@ const GoalsPage = () => {
 
                 setGoals(goalsRes.data);
                 
-                // Xử lý để lấy ra các tháng có dữ liệu
+                //lấy ra các tháng có dữ liệu
                 const months = new Set(transactionsRes.data.map(t => 
                     `${new Date(t.date).getFullYear()}-${String(new Date(t.date).getMonth() + 1).padStart(2, '0')}`
                 ));
                 setPlanningState(prev => ({ ...prev, availableMonths: Array.from(months).sort().reverse() }));
 
             } catch (err) {
-                // ...
+                
             } finally {
                 setLoading(false);
             }
@@ -87,7 +86,7 @@ const GoalsPage = () => {
 
     const handleGeneratePlan = async () => {
         if (planningState.selectedMonths.size === 0) {
-            setPlanningState(prev => ({ ...prev, error: "Vui lòng chọn ít nhất một tháng." }));
+            setPlanningState(prev => ({ ...prev, error: "Vui lòng chọn ít nhất một tháng" }));
             return;
         }
         setPlanningState(prev => ({ ...prev, isLoadingPlan: true, error: '' }));
@@ -99,7 +98,7 @@ const GoalsPage = () => {
             );
             setPlanningState(prev => ({ ...prev, planResult: data }));
         } catch (err) {
-            setPlanningState(prev => ({ ...prev, error: err.response?.data?.message || 'Tạo kế hoạch thất bại.' }));
+            setPlanningState(prev => ({ ...prev, error: err.response?.data?.message || 'Tạo kế hoạch thất bại' }));
         } finally {
             setPlanningState(prev => ({ ...prev, isLoadingPlan: false }));
         }
@@ -176,7 +175,7 @@ const GoalsPage = () => {
             setIsSavingModalOpen(false);
             alert('Đã thêm tiền vào mục tiêu thành công!');
         } catch (err) {
-            alert(err.response?.data?.message || 'Thất bại.');
+            alert(err.response?.data?.message || 'Thất bại');
         }
     };
     return (

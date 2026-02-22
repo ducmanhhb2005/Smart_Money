@@ -1,4 +1,3 @@
-// backend/src/routes/ai.routes.js
 import { Router } from 'express';
 import { parseReceiptWithGemini, generateSavingPlan } from '../controllers/ai.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';

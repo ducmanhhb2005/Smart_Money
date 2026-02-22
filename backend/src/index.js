@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
     res.send('SmartMoney Backend is running!');
 });
 
-// Sử dụng các routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/budgets', budgetRoutes);

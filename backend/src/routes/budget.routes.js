@@ -1,4 +1,3 @@
-// backend/src/routes/budget.routes.js
 import { Router } from 'express';
 import {
     createBudget,

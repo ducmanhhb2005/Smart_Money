@@ -1,8 +1,7 @@
-/* frontend/src/pages/AddByReceiptPage/components/EditableTransactionRow/EditableTransactionRow.module.css */
 
 .row {
     display: grid;
-    grid-template-columns: 1fr 120px 120px 40px; /* Tên | Danh mục | Số tiền | Nút xóa */
+    grid-template-columns: 1fr 120px 120px 40px; 
     gap: 0.75rem;
     align-items: center;
 }
@@ -25,8 +24,6 @@
 .titleInput {
     font-weight: 600;
 }
-
-
 
 .amountInput {
     text-align: right;

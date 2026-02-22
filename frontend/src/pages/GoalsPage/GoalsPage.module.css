@@ -96,20 +96,19 @@
     justify-content: flex-end; 
     gap: 1rem; }
 .error { color: red; }
-/* Thêm vào cuối file GoalsPage.module.css */
 
 .actions {
     margin-top: 1rem;
     display: flex;
-    flex-wrap: wrap; /* Cho phép các nút xuống dòng nếu không đủ chỗ */
+    flex-wrap: wrap; 
     gap: 0.5rem;
 }
 
 .planButton {
-    background-color: #8b5cf6; /* Màu tím */
+    background-color: #8b5cf6; 
     color: white;
     border: none;
-    flex-grow: 1; /* Nút sẽ chiếm nhiều không gian hơn */
+    flex-grow: 1; 
 }
 .planButton:hover {
     background-color: #7c3aed;
@@ -182,7 +181,7 @@
 .acceptButton { margin-top: 1rem; width: 100%; padding: 0.6rem; background: #6b7280; color: white; border: none; border-radius: 6px; cursor: pointer;}
 
 .saveButton {
-    background-color: #10b981; /* Màu xanh lá */
+    background-color: #10b981; 
     color: white;
     border: none;
     flex-grow: 1;

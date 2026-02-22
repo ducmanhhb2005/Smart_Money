@@ -18,7 +18,7 @@ const LoginPage = () => {
         try {
             await login(formData);
         } catch (err) {
-            setError(err.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+            setError(err.message || 'Đăng nhập thất bại. Vui lòng thử lại');
         } finally {
             setLoading(false);
         }

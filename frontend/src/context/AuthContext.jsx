@@ -3,7 +3,7 @@ import * as api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
-
+//Thông tin được phát trên kênh truyền 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -46,8 +46,8 @@ export const AuthProvider = ({ children }) => {
     }), [user, login, logout]);
 
     if (loading) return <div>Loading Application...</div>;
-
+//Bất kỳ component con nào (children) bên trong AuthProvider đều có thể biết được thông tin người dùng đăng nhập/ đăng xuất
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
+//Khởi tạo kênh và đường truyền 
 export const useAuth = () => useContext(AuthContext);

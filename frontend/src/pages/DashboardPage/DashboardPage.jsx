@@ -13,9 +13,8 @@ const DashboardPage = () => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    //const location = useLocation();
 
-    // 1. TÍNH TOÁN DỮ LIỆU "TỔNG CỘNG" (All-Time) CHO SUMMARY CARDS
+    //all time data
     const allTimeSummary = transactions.reduce((acc, t) => {
         if (t.type === 'INCOME') {
             acc.income += t.amount;
@@ -25,7 +24,7 @@ const DashboardPage = () => {
         return acc;
     }, { income: 0, expense: 0 });
 
-    // 2. TÍNH TOÁN DỮ LIỆU "THÁNG NÀY" (This Month) CHO BIỂU ĐỒ
+    //this month data
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
@@ -54,7 +53,7 @@ const DashboardPage = () => {
                 setTransactions(data);
             } catch (error) {
                 console.error("Failed to fetch transactions", error);
-                alert("Không thể tải dữ liệu giao dịch.");
+                alert("Không thể tải dữ liệu giao dịch");
                 setTransactions([]);
             } finally {
                 setLoading(false);
@@ -96,7 +95,9 @@ const DashboardPage = () => {
                 <div className={styles.rightColumn}>
                     <TransactionList transactions={transactions} />
                 </div>
+
             </main>
+            
         </div>
     );
 };

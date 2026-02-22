@@ -6,17 +6,17 @@ import EditableTransactionRow from './EditableTransactionRow/EditableTransaction
 const AddByReceiptPage = () => {
     const navigate = useNavigate();
 
-    // State quản lý file và các bước xử lý
+    //quản lý file và các bước xử lý
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [transactions, setTransactions] = useState([]); 
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // Dùng useRef để có thể click vào input file "vô hình"
+    //useRef để có thể click vào input file vô hình
     const fileInputRef = useRef(null);
 
-    // Xử lý khi người dùng chọn file ảnh
+    //người dùng chọn file ảnh
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
@@ -36,12 +36,12 @@ const AddByReceiptPage = () => {
         }
     };
 
-    // Kích hoạt input file khi người dùng click vào vùng upload
+    //Kích hoạt input file khi người dùng click vào vùng upload
     const handleUploadBoxClick = () => {
         fileInputRef.current.click();
     };
 
-    // Xử lý khi người dùng nhấn nút "Phân tích"
+    // Xử lý khi người dùng nhấn nút Phân tích
     const handleAnalyzeReceipt = async () => {
         if (!selectedFile) {
             setError('Vui lòng chọn một file ảnh hóa đơn.');
@@ -52,24 +52,24 @@ const AddByReceiptPage = () => {
         setTransactions([]);
 
         try {
-            // Chỉ cần gọi 1 API duy nhất: gửi ảnh và nhận về JSON đã phân tích
+            // gửi ảnh và nhận về JSON đã phân tích
             const response = await api.parseReceiptWithAI(selectedFile);
             setTransactions(response.data.data);
             
         } catch (err) {
-            setError(err.response?.data?.message || 'Xảy ra lỗi trong quá trình phân tích.');
+            setError(err.response?.data?.message || 'Xảy ra lỗi trong quá trình phân tích');
         } finally {
             setIsLoading(false);
         }
     };
-    // HÀM MỚI: Cập nhật một giao dịch trong danh sách
+    //Cập nhật một giao dịch trong danh sách
     const handleUpdateTransaction = (index, updatedTransaction) => {
         const newTransactions = [...transactions];
         newTransactions[index] = updatedTransaction;
         setTransactions(newTransactions);
     };
 
-    // HÀM MỚI: Xóa một giao dịch khỏi danh sách
+    //Xóa một giao dịch khỏi danh sách
     const handleDeleteTransaction = (index) => {
         setTransactions(transactions.filter((_, i) => i !== index));
     };
@@ -77,9 +77,9 @@ const AddByReceiptPage = () => {
     const handleConfirmAllTransactions = async () => {
         if (transactions.length === 0) return;
         
-        setIsLoading(true); // Hiển thị loading cho nút xác nhận
+        setIsLoading(true); //Hiển thị loading cho nút xác nhận
         try {
-            // Dùng Promise.all để gửi tất cả các request tạo giao dịch song song
+            //gửi tất cả các request tạo giao dịch song song
             await Promise.all(
                 transactions.map(t => api.createTransaction({
                     ...t,
@@ -91,7 +91,7 @@ const AddByReceiptPage = () => {
             navigate('/dashboard', { state: { refresh: true } });
 
         } catch (err) {
-            setError('Lưu một hoặc nhiều giao dịch thất bại. Vui lòng thử lại.');
+            setError('Lưu một hoặc nhiều giao dịch thất bại. Vui lòng thử lại');
         } finally {
             setIsLoading(false);
         }

@@ -1,19 +1,19 @@
-/* Container chính bao bọc toàn bộ trang Dashboard */
+
 .dashboardContainer {
     padding: 2rem;
-    background-color: #f9fafb; /* màu nền xám rất nhạt */
+    background-color: #f9fafb; 
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
 }
 
-/* Phần Header chứa tiêu đề và các nút hành động */
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    max-width: 1400px; /* Giới hạn độ rộng tối đa để đẹp hơn trên màn hình lớn */
+    max-width: 1400px; 
     margin-left: auto;
     margin-right: auto;
 }
@@ -67,17 +67,17 @@
     background-color: #e5e7eb;
 }
 
-/* Container chính cho nội dung (2 cột) */
+
 .mainContent {
     display: grid;
-    grid-template-columns: 1fr 420px; /* Cột trái (1fr) co giãn, cột phải (420px) cố định */
+    grid-template-columns: 1fr 420px; 
     gap: 2rem;
     align-items: start;
     max-width: 1400px;
-    margin: 0 auto; /* Căn giữa layout */
+    margin: 0 auto; 
 }
 
-/* Responsive: Trên màn hình nhỏ hơn 1024px, chuyển về 1 cột */
+
 @media (max-width: 1024px) {
     .mainContent {
         grid-template-columns: 1fr;
@@ -91,7 +91,7 @@
     gap: 2rem;
 }
 
-/* Container cho 2 card "Tổng thu nhập" và "Tổng chi tiêu" */
+/* Container cho 2 card Tổng thu nhập và Tổng chi tiêu */
 .summaryGrid {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia thành 2 cột bằng nhau */

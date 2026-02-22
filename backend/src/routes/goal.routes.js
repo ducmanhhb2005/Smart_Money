@@ -1,4 +1,3 @@
-// backend/src/routes/goal.routes.js
 import { Router } from 'express';
 import {
     createGoal,
