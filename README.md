@@ -2,6 +2,10 @@
 
 SmartMoney là một ứng dụng web giúp người dùng quản lý tài chính cá nhân một cách hiệu quả. Ứng dụng bao gồm các tính năng như theo dõi giao dịch, lập ngân sách, đặt mục tiêu tài chính và tích hợp AI để phân tích hóa đơn.
 
+## Demo
+
+Xem video demo: [https://www.youtube.com/watch?v=tJBZoheF_b4](https://www.youtube.com/watch?v=tJBZoheF_b4)
+
 ## Tính năng chính
 
 - **Quản lý giao dịch**: Thêm, chỉnh sửa và xóa các giao dịch thu nhập và chi tiêu.
